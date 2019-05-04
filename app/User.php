@@ -28,6 +28,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
+    public function order() {
+        return $this->hasMany('App\Order');
+    }
+    
     // determine if User is admin by checking DB field role (2 is admin)
     public function isAdmin() {
         return ($this->role == 2);
