@@ -37,9 +37,15 @@
                         </tbody>
                     </table>
                 </div>
+                <button onclick='makeOrder()' class='btn btn-primary'>Make Order!</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function makeOrder() {
+        window.location.href = '/orders/create';
+    }
+</script>
 @endsection 

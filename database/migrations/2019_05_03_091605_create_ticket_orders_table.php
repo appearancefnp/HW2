@@ -16,8 +16,8 @@ class CreateTicketOrdersTable extends Migration
         Schema::create('ticket_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->bigInteger('order_id');
-            $table->bigInteger('ticket_id');
+            $table->integer('order_id')->unsigned();
+            $table->integer('ticket_id')->unsigned();
             //Define foreign keys
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('ticket_id')->references('id')->on('tickets');
