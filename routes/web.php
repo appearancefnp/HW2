@@ -25,5 +25,4 @@ Route::post('events/search','EventsController@postSearch');
 Route::get('cart', 'CartController@index');
 Route::get('cart/add/{id}', 'CartController@add');
 Route::get('cart/remove/{id}', 'CartController@remove');
-Route::resource('orders', 'OrderController', ['only' => ['index', 'store']]);
-Route::get('orders/create', 'OrderController@Create');
+Route::resource('orders', 'OrderController', ['only' => ['index', 'store', 'show', 'create']]);

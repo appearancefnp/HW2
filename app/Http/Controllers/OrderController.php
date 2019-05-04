@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Session;
 use App\Order;
 use App\Ticket;
 use App\TicketOrder;
+use App\User;
 
 class OrderController extends Controller
 {
     public function __construct()
     {
-        // only Admins have access
         $this->middleware('auth');
     }
     /**
@@ -86,7 +86,7 @@ class OrderController extends Controller
             }
         }
         Session::forget('cart');
-        return redirect('/cart');
+        return redirect()->action('OrderController@show', ['id' => $order_id]);
     }
 
     /**
@@ -97,7 +97,21 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $tickets = array();
+        $order = Order::FindOrFail($id);
+        $user_id = Auth::id();
+        if ($order->user_id != $user_id) {
+            return abort(404);
+        }
+        $total = 0.0;
+        $user = User::Find($user_id);
+        $ticketOrders = TicketOrder::where('order_id','=',$id)->get();
+        foreach ($ticketOrders as $ticketOrder) {
+            $ticket = Ticket::find($ticketOrder->ticket_id);
+            $tickets[] = $ticket;
+            $total += $ticket->price;
+        }
+        return view('order_show', ['order' => $order, 'user' => $user, 'tickets' => $tickets, 'total' => $total]);
     }
 
     /**
