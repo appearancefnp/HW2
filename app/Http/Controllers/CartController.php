@@ -28,7 +28,10 @@ class CartController extends Controller
     public function add(Request $request, $id)
     {
         $current_cart = $request->session()->get('cart', array());
-        
+        //if the tickets is not available
+        if( Ticket::Find($id)->available == '0' ) {
+            return back()->with('message', 'The ticket you have chosen is unavailable');
+        }
         // if not already in the shopping car, add
         if (!array_key_exists($id, $current_cart))
         {

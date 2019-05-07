@@ -11,6 +11,11 @@
                 <p class="card-text">Category: {{ $event->category->name }}</p>
                 <p class="card-text">Rating: {{ $event->rating }}</p>
                 <p class="card-text">Location: {{ $event->location }}</p>
+                    @if(session()->has('message'))
+                     <div class="alert alert-danger">
+                        {{ session()->get('message') }}
+                     </div>
+                    @endif 
                 <div class="card-text">
                     @php
                         $tickets = $event->tickets;
@@ -26,7 +31,13 @@
                     @for ($r = 1; $r <= $event->rows; $r++)
                         <tr><td>{{ $r }}.</td> 
                         @for ($s = 1; $s <= $event->seats; $s++) 
-                        <td title="Row {{ $r }} Seat {{ $s }}"><a class="btn btn-outline-primary btn-sm" href='{{ url('cart/add', $tickets->get(($r-1)*($event->seats)+$s-1)->id) }}'>{{$tickets->get(($r-1)*($event->seats)+$s-1)->price}}&euro;</a>
+                        <td title="Row {{ $r }} Seat {{ $s }}"><a
+                            @if($tickets->get(($r-1)*($event->seats)+$s-1)->available))    
+                                class="btn btn-outline-primary btn-sm"
+                            @else
+                                class="btn btn-outline-danger btn-sm"
+                            @endif
+                        href='{{ url('cart/add', $tickets->get(($r-1)*($event->seats)+$s-1)->id) }}'>{{$tickets->get(($r-1)*($event->seats)+$s-1)->price}}&euro;</a>
                         @endfor
                         </tr>
                     @endfor

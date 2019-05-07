@@ -85,6 +85,9 @@ class OrderController extends Controller
                 $TicketOrder->order_id = $order_id;
                 $TicketOrder->ticket_id = $id;
                 $TicketOrder->save();
+                $Ticket = Ticket::Find($id);
+                $Ticket->available = '0';
+                $Ticket->save();
             }
         }
         Session::forget('cart');

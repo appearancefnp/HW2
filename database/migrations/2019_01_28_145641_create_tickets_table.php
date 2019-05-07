@@ -20,7 +20,8 @@ class CreateTicketsTable extends Migration
             $table->foreign('event_id')->references('id')->on('events');
             $table->integer('row');
             $table->integer('seat');
-            $table->decimal('price', 5, 2);            
+            $table->decimal('price', 5, 2);
+            $table->boolean('available')->default('1');
         });
     }
 
