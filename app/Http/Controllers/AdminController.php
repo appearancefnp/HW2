@@ -21,4 +21,15 @@ class AdminController extends Controller
         $orders = Order::orderBy('created_at', 'desc')->get();
         return view('orders_all', ['orders' => $orders]);
     }
+    
+    public function fulfill($id) {
+        $order = Order::Find($id);
+        if ($order->fulfilled == '0') {
+            $order->fulfilled = '1';
+        } else {
+            $order->fulfilled = '0';
+        }
+        $order->save();
+        return redirect()->action('AdminController@orders');
+    }
 }

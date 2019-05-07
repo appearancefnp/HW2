@@ -27,3 +27,4 @@ Route::get('cart/add/{id}', 'CartController@add');
 Route::get('cart/remove/{id}', 'CartController@remove');
 Route::resource('orders', 'OrderController', ['only' => ['index', 'store', 'show', 'create']]);
 Route::get('admin/orders', 'AdminController@orders');
+Route::get('admin/fulfill/{id}', 'AdminController@fulfill');

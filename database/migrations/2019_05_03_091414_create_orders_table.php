@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_address');
             $table->integer('phone_number');
             $table->unsignedInteger('user_id');
+            $table->boolean('fulfilled')->default('0');
             //Define foreign keys
             $table->foreign('user_id')->references('id')->on('users');
         });
