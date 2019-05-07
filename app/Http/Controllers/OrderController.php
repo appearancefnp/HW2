@@ -102,11 +102,11 @@ class OrderController extends Controller
         $tickets = array();
         $order = Order::FindOrFail($id);
         $user_id = Auth::id();
-        if ($order->user_id != $user_id) {
+        if (($order->user_id != $user_id) and !(User::Find($user_id)->isAdmin())) {
             return abort(404);
         }
         $total = 0.0;
-        $user = User::Find($user_id);
+        $user = User::Find($order->user_id);
         $ticketOrders = TicketOrder::where('order_id','=',$id)->get();
         foreach ($ticketOrders as $ticketOrder) {
             $ticket = Ticket::find($ticketOrder->ticket_id);

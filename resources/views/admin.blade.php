@@ -15,6 +15,7 @@
                        <li class="list-group-item"><a href="{{ url('category/create') }}">Add a new category</a></li>
                        <li class="list-group-item"><a href="{{ url('event/create') }}">Add a new event</a></li>
                        <li class="list-group-item"><a href="{{ url('ticket/create') }}">Add a new ticket</a></li>
+                       <li class="list-group-item"><a href="{{ url('admin/orders') }}">View all user orders</a></li>
                     </ul>
                 </div>
             </div>
