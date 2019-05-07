@@ -56,6 +56,11 @@
                     </div>
 
                     <div class="form-group row">
+                    @if(session()->has('message'))    
+                        <div class="col-md-6 offset-md-4 alert alert-danger">
+                            {{ session()->get('message') }} 
+                        </div>
+                    @endif  
                     <div class="col-md-6 offset-md-4">
                     {!! Form::submit('Create', ['class' => 'btn btn-primary']) !!}
                     </div>

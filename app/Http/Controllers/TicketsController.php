@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Ticket;
+use App\Rules\RowCount;
+use App\Rules\SeatCount;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
@@ -35,12 +37,23 @@ class TicketsController extends Controller
         
         $rules = $rules = array(
             'event' => 'required|exists:events,id',
-            'row' => 'required|integer|min:0',
-            'seat' => 'required|integer|min:0',
+            'row' => ['required','integer','min:0'],
+            'seat' => ['required','integer','min:0'],
             'price' => 'required|numeric|min:0',
         );
         
         $this->validate($request, $rules);
+        
+        $event = Event::Find($data['event']);
+        if ($data['row'] > $event->rows) {
+            return redirect()->back()->with('message', 'There are only ' . $event->rows . ' rows for this event!')->withInput();
+        }
+        if ($data['seat'] > $event->seats) {
+            return redirect()->back()->with('message', 'There are only ' . $event->seats . ' seats for this event!')->withInput();
+        }
+        if (($data['seat'] == $event->seats) and ($data['row'] == $event->rows)) {
+            return redirect()->back()->with('message', 'This ticket already exists(Row: '. $data['row'] .', Seat: '. $data['seat'] .')')->withInput();
+        }
         
         $ticket = new Ticket();
         $ticket->row = $data['row'];
